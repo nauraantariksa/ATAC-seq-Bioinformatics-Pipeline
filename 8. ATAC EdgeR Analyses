@@ -1,0 +1,26 @@
+#Creating a consensus peak requires cloning Robert Hansel-Hertsch's github at https://github.com/sblab-bioinformatics/dna-secondary-struct-chrom-lands
+
+#Create consensus peaks of cell line 1
+mergePeaks.sh CELL_1_BIO1.narrowPeak CELL_1_BIO2.narrowPeak CELL_1_BIO3.narrowPeak CELL_1_BIO4.narrowPeak
+| awk '$5 > 2' > CELL_1.merge.narrowPeak
+
+#Create consensus peaks of cell line 1
+mergePeaks.sh CELL_2_BIO1.narrowPeak CELL_2_BIO2.narrowPeak CELL_2_BIO3.narrowPeak CELL_2_BIO4.narrowPeak
+| awk '$5 > 2' > CELL_1.merge.narrowPeak
+
+# awk '$5 > 2' refers to peaks appearing at least 3/4 replicates
+
+#Generate one union peak
+
+mergePeaks.sh CELL_1.narrowPeak CELL_2.narrowPeak \
+| sortBedAsBam.py -i - -b <BAM> > CELL_1-2.union.merge.bed
+
+#Copy all the BAM files corresponding to the files into one folder to perform the coverage
+
+for bam in *.bam
+do
+coverageBed -g genome.txt -counts -a CELL_1-2.union.merge.bed -b $bam > ${name}.union.bed
+done
+
+echo 'chrom start end peakFiles nfiles nreads sample_id' | tr ' ' '\t' > CELL_1-2.union.merge.counts.bed
+tableCat.py -i *.union.bed -r '.union.bed' >> CELL_1-2.union.merge.counts.bed
