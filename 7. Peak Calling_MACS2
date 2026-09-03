@@ -1,0 +1,3 @@
+#MACS2 is located in anaconda3. In nfa23, MACS2 was added to path, activate by source~/.bashrc
+
+macs2 callpeak -f BAMPE --keep-dup all -t ATAC_BIO1_NoMito.bam -n ATAC_BIO1
