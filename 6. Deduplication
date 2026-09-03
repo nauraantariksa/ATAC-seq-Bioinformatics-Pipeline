@@ -1,0 +1,22 @@
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=128:mem=900gb
+
+module load SAMtools/1.18-GCC-12.3.0
+module load BEDTools/2.31.0-GCC-12.3.0
+module load tools/prod
+module load picard/2.25.1-Java-11
+
+bam_dir=/PATH/TO/BAM
+tmp_dir=$EPHEMERAL/tmp_dedup
+mkdir -p $tmp_dir
+
+for file in $bam_dir/*.bl.dedup.sort.bam
+do
+name=`basename $file .bl.dedup.sort.bam`
+samtools view -h $file | grep -v -P '\tchrM\t' | samtools view -b - > $tmp_dir/$name.nomito.bl.dedup.sort.bam
+java -jar $EBROOTPICARD/picard.jar MarkDuplicates REMOVE_DUPLICATES=TRUE I=$tmp_dir/$name.nomito.bl.dedup.sort.bam O=$tmp_dir/$name.dedup2.nomito.bl.dedup.sort.bam M=$tmp_dir/$name.dedup2.metrics.txt TMP_DIR=$tmp_dir
+samtools index $tmp_dir/$name.dedup2.nomito.bl.dedup.sort.bam
+rm $tmp_dir/$name.nomito.bl.dedup.sort.bam
+done
+
+cp $tmp_dir/*.dedup2.nomito.bl.dedup.sort.bam* $tmp_dir/*.dedup2.metrics.txt "$PBS_O_WORKDIR"
