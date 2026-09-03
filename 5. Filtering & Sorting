@@ -1,0 +1,26 @@
+#Filtering and sorting of ATAC data requires the removal of mitochondrial reads
+
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=128:mem=900gb
+
+module load SAMtools/1.18-GCC-12.3.0
+module load BEDTools/2.31.0-GCC-12.3.0
+module load tools/prod
+module load picard/2.25.1-Java-11
+
+sam_dir=/PATH/TO/SAM/FILES
+tmp_dir=$EPHEMERAL/tmp_filtering
+mkdir -p $tmp_dir
+
+for file in $sam_dir/*.sam
+do
+name=`basename $file .sam`
+samtools view -F 2308 -b -q 10 $sam_dir/$name.sam > $tmp_dir/$name.bam
+samtools sort -o $tmp_dir/$name.sort.bam -O 'bam' -T $tmp_dir/temp_$name $tmp_dir/$name.bam
+java -jar $EBROOTPICARD/picard.jar MarkDuplicates REMOVE_DUPLICATES=TRUE I=$tmp_dir/$name.sort.bam O=$tmp_dir/$name.dedup.sort.bam M=$tmp_dir/$name.metrics.txt TMP_DIR=$tmp_dir
+bedtools intersect -v -abam $tmp_dir/$name.dedup.sort.bam -b '/rds/general/project/diantonio/live/tools/blacklisted_regions/hg38-blacklist.v2.bed' > $tmp_dir/$name.bl.dedup.sort.bam
+samtools index $tmp_dir/$name.bl.dedup.sort.bam
+rm $tmp_dir/$name.bam $tmp_dir/$name.sort.bam $tmp_dir/$name.dedup.sort.bam
+done
+
+cp $tmp_dir/*.bl.dedup.sort.bam* $tmp_dir/*.metrics.txt "$PBS_O_WORKDIR"
