@@ -1,3 +1,5 @@
+# ATAC-seq Bioinformatics Pipeline
+
 This GitHub page is a collection of scripts and general code used for the analysis of ATAC-seq datasets
 
 The pipeline of ATAC analyses is identical to that of ChIP-seq, except during **Filtering&Sorting and Deduplication**, where ChrM reads are removed. Additionally, peak calling with MACS2 uses different parameters. As such, this page will only elaborate on those differences. For:
