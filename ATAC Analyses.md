@@ -93,6 +93,7 @@ done
 
 echo 'chrom start end peakFiles nfiles nreads sample_id' | tr ' ' '\t' > CELL_1-2.union.merge.counts.bed
 tableCat.py -i *.union.bed -r '.union.bed' >> CELL_1-2.union.merge.counts.bed
+```
 
 Differential analyses were performed locally on R, using code adapted from Robert Hansel-Hertsch (2016)
 ```bash
