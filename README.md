@@ -5,7 +5,7 @@ This GitHub page is a collection of scripts and general code used for the analys
 The pipeline of ATAC analyses is identical to that of ChIP-seq, except during **Filtering&Sorting and Deduplication**, where ChrM reads are removed. Additionally, peak calling with MACS2 uses different parameters. As such, this page will only elaborate on those differences. For:
 1) Trimming
 2) QC
-3) Alignment
+3) Alignment<br /> 
 please refer to the ChIP-Seq Bioinformatics Pipeline
 
 Make sure these dependencies are installed in your system:<br /> 
