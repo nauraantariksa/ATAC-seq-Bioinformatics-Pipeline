@@ -6,21 +6,21 @@ The pipeline of ATAC analyses is identical to that of ChIP-seq, except during **
 3) Alignment
 please refer to the ChIP-Seq Bioinformatics Pipeline
 
-Make sure these dependencies are installed in your system:
+Make sure these dependencies are installed in your system:<br /> 
 
-anaconda3
-python (version 3.9)
-pairtools (https://github.com/open2c/pairtools)
-samtools
-bedtools
+anaconda3<br /> 
+python (version 3.9)<br /> 
+pairtools (https://github.com/open2c/pairtools)<br /> 
+samtools<br /> 
+bedtools<br /> 
 
-In anaconda3, make separate environments for the following Python suites used for the data analyses:
+In anaconda3, make separate environments for the following Python suites used for the data analyses:<br /> 
 
-deeptools (in a deeptools_env, perform $conda install -c conda-forge -c bioconda deeptools)
-macs2 (in a macs2_env, perform $conda install -c bioconda macs2)
+deeptools (in a deeptools_env, perform $conda install -c conda-forge -c bioconda deeptools)<br /> 
+macs2 (in a macs2_env, perform $conda install -c bioconda macs2)<br /> 
 
-For other analyses, install or clone Github repositories:
+For other analyses, install or clone Github repositories:<br /> 
 
-R
-Homer
-SEACR
+R<br /> 
+Homer<br /> 
+SEACR<br /> 
