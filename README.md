@@ -9,7 +9,7 @@ please refer to the ChIP-Seq Bioinformatics Pipeline
 Make sure these dependencies are installed in your system:<br /> 
 
 - anaconda3<br /> 
-- python (version 3.9)<br />
+- python version 3.9<br />
 - fastp v0.23.4
 - FastQC v0.11.9
 - Bowtie2 v2.5.1   
